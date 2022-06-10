@@ -267,6 +267,7 @@ int main (int argc, char** argv){
     else if(strcmp(opt,"--w2pot")==0   || strcmp(opt,"-wv2")==0){ w2potFile   =argv[++i]; isw[2] = true;}
     else if(strcmp(opt,"--w3pot")==0   || strcmp(opt,"-wv3")==0){ w3potFile   =argv[++i]; isw[3] = true;}
     else if(strcmp(opt,"--elec")==0    || strcmp(opt,"-er")==0) { erFile      =argv[++i]; iser   = true;}
+    else if(strcmp(opt,"--config")==0  || strcmp(opt,"-cf")==0)   geoFile     =argv[++i];
     else if(strcmp(opt,"--output")==0  || strcmp(opt,"-o")==0)    outFile     =argv[++i];
     else if(strcmp(opt,"--datafile")==0|| strcmp(opt,"-data")==0){dataFile    =argv[++i]; inp = reader.GetData(dataFile,xdo, ydo, zdo);       Nsims = inp.size();}
     else if(strcmp(opt,"--simfile")==0 || strcmp(opt,"-ldf")==0) {lardriftFile=argv[++i]; inp = reader.GetLarDrift(lardriftFile);             Nsims = inp.size();}
