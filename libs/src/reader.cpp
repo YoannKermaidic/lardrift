@@ -119,8 +119,6 @@ vector<vector<double> > Reader::GetER(string filename,double dt){
 void Reader::GetComsol(string filename, pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, Field &field,bool &ise,bool* isw){
   if(debug) std::cout << "GetComsol::Start -> " << filename << std::endl;
   
-  cloud = pcl::PointCloud<pcl::PointXYZ>::Ptr (new pcl::PointCloud<pcl::PointXYZ>);
-  
   bool isEfield = true;
   if(filename.find("wfield") != string::npos) isEfield = false;
   
