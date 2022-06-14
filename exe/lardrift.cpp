@@ -116,14 +116,15 @@ int runsimulation(int tid, Boundaries bounds, Boundaries det, Tools tool, Offset
     }
     else if(scan==6) bounds.SetVertexPoint(sim,Nsims,v_phi*M_PI/180.,v_theta*M_PI/180.,v_L1,v_L2,v_z0);
     
-    if(isw[0]) tool.ComputePCBoffset(bounds.ti,bounds.xi,bounds.yi,bounds.zi,offset); // If signal sims, operates referential tranformation
+    if(exp_setup=="pcb") tool.ComputePCBoffset(bounds.ti,bounds.xi,bounds.yi,bounds.zi,offset); // If signal sims, operates referential tranformation
     if(zli != zle) offset.z = 0;
     
     // Check if initial position lies within the detector boundaries
     if(!tool.InDetector(bounds.xi-offset.x,bounds.yi-offset.y,bounds.zi-offset.z)){
       cout << "LArDrift::WARNING:" << sim+1 << " / " << Nsims << " -> Initial point (" << bounds.xi-offset.x << " " << bounds.yi-offset.y << " " << bounds.zi-offset.z << ") not within boundaries" << endl;
       bounds.PrintBoundaries();
-      return 1;
+      continue;
+      //return 1;
     }
     
     // Reset step time to standard value
