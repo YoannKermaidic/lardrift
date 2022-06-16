@@ -433,9 +433,9 @@ int main (int argc, char** argv){
   if(isw[0]){
     vector<vector<double> > vER;
     if(iser){vER = reader.GetER(erFile,dt_start);  canvases.push_back(plot.ER(vER));}
-    for(int vw=0;vw<nViews;vw++) for(int st=0;st<strips[vw].size();st++) tool.ERconvolution(vER,strips[vw][st]);
+    if(iser) for(int vw=0;vw<nViews;vw++) for(int st=0;st<strips[vw].size();st++) tool.ERconvolution(vER,strips[vw][st]);
     canvases.push_back(plot.FullEventDisplay("Raw",strips));
-    canvases.push_back(plot.FullEventDisplay("Conv",strips));
+    if(iser) canvases.push_back(plot.FullEventDisplay("Conv",strips));
   }
   
   // Write output to ROOT file
