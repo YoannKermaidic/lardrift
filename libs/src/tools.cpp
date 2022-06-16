@@ -7,7 +7,7 @@ Tools::Tools(int db, string setup, double T){
   T_lar   = T;
 
   octrees.resize(4,8);
-  clouds.resize(4,pcl::PointCloud<pcl::PointXYZ>::Ptr (new pcl::PointCloud<pcl::PointXYZ>));
+  clouds.resize(4);
   fields.resize(4,Field());
 }
 
@@ -78,7 +78,13 @@ int Tools::IsCollected(double posx, double posy, double posz){
   double radius = sqrt((posx-xc)*(posx-xc) + (posy-yc)*(posy-yc));
   double rx     = sqrt((fabs(posx-xc)-hole_xs)*(fabs(posx-xc)-hole_xs) + (posy-yc)*(posy-yc));
   double rxy    = sqrt((fabs(posx-xc)-hole_xs/2.)*(fabs(posx-xc)-hole_xs/2.) + (fabs(posy-yc)-hole_ys)*(fabs(posy-yc)-hole_ys));
-  
+
+  if(posz <= hole_h+hole_eps && posz >= -hole_eps){
+    if(debug) cout << "  radius: " << radius << endl;
+    if(debug) cout << "  rx:     " << rx     << endl;
+    if(debug) cout << "  rxy:    " << rxy    << endl;
+  }
+
   // check collection PCB plane
   if(radius < hole_r || rx < hole_r || rxy < hole_r)                          return 0; // within central/neighbour hole
   else if(posz <= hole_h+hole_eps && posz >= -hole_eps)                       return 1; // within shield     plane
