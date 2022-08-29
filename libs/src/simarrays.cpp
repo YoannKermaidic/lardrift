@@ -1,6 +1,6 @@
 #include "simarrays.hh"
 
-const int MAX_STEPS= 500; // #  - maximum number of calculated points.
+const int MAX_STEPS= 2000; // #  - maximum number of calculated points.
 double Eion = 23.6e-6;    // MeV - ionisation energy
 double Qe   = 1.602e-4;   // fC - electron charge
 
