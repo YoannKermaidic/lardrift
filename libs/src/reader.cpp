@@ -160,9 +160,9 @@ void Reader::GetComsol(string filename, pcl::PointCloud<pcl::PointXYZ>::Ptr &clo
       if(!set_unit && header.find(flag_unit) != string::npos){
         set_unit = true;
         sscanf(header.c_str(),"%% Length unit:        %s",unit);
-        if(!strcmp(unit,"m"))       lenght_unit = mTOcm;
-        else if(!strcmp(unit,"cm")) lenght_unit = 1.;
-        else if(!strcmp(unit,"mm")) lenght_unit = mmTOcm;
+        if(header.find("mm") != std::string::npos)       lenght_unit = mmTOcm;
+        else if(header.find("cm") != std::string::npos)  lenght_unit = 1.;
+        else if(header.find("m") != std::string::npos)   lenght_unit = mTOcm;
         if(debug) cout << "GetComsol::Found length unit: " << unit << " -> conversion factor to cm: " << lenght_unit << endl;
       }
     }
