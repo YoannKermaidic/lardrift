@@ -238,7 +238,7 @@ TCanvas* Plotter::TwoDTracks(vector<bool> isvalid, vector<Electron> els){
       if(icol>254) icol -= 255;
       gDrift[pl][sim]->SetMarkerColor(gStyle->GetColorPalette(icol)); gDrift[pl][sim]->SetLineColor(gStyle->GetColorPalette(icol));
 
-      for(std::size_t i = 0; i < els[sim].step; ++i){
+      for(std::size_t i = 0; i <= els[sim].step; ++i){
         if(planes[pl] == "xz")      gDrift[pl][sim]->SetPoint(gDrift[pl][sim]->GetN(),els[sim].x[i],els[sim].z[i]);
         else if(planes[pl] == "zy") gDrift[pl][sim]->SetPoint(gDrift[pl][sim]->GetN(),els[sim].z[i],els[sim].y[i]);
         else                        gDrift[pl][sim]->SetPoint(gDrift[pl][sim]->GetN(),els[sim].x[i],els[sim].y[i]);

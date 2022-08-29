@@ -179,6 +179,8 @@ int runsimulation(int tid, Boundaries bounds, Boundaries det, Tools tool, Offset
       
       el.step += 1;
 
+      double dt_prev = dt;
+
       // Check if next electron position will reach detector boundaries. If yes, refine delta t step and continue the propagation
       if(!isw[0] && !tool.InDetector(el.x[el.step-1]+el.v[1]*dt,el.y[el.step-1]+el.v[2]*dt,el.z[el.step-1]+el.v[3]*dt)) dt /= 10.;
       
@@ -191,9 +193,13 @@ int runsimulation(int tid, Boundaries bounds, Boundaries det, Tools tool, Offset
       // Stop drift if the electron is collected
       if(coll_flag>0) stop_drift = true;
       // Stop drift if the electron is out of boundaries
-      if(!tool.InDetector(el.x[el.step],el.y[el.step],el.z[el.step])) stop_drift = true;
+      if(!tool.InDetector(el.x[el.step],el.y[el.step],el.z[el.step]) || dt < dt_thrs){
+        // Scale last point onto the shield plane for more accurate drift time estimate 
+	if(!isw[0] && el.z[el.step-1]+el.v[3]*dt_prev > bounds.zmax){ el.x[el.step] = el.x[el.step-1]; el.y[el.step] = el.y[el.step-1]; el.z[el.step] = bounds.zmax; el.t[el.step] = el.t[el.step-1] + (el.z[el.step]-el.z[el.step-1])/el.v[3];}
+	stop_drift = true;
+      }
       // Stop drift if electric field is not defined or is below threshold (prevent electron at rest) or other thresholds exceeded
-      if(isnan(el.e) || el.e < e_thrs || dt < dt_thrs || el.step == el.maxstep){ el.step -= 1; stop_drift = true;}
+      if(!stop_drift && (isnan(el.e) || el.e < e_thrs || dt < dt_thrs || el.step == el.maxstep)){ el.step -= 1; stop_drift = true;}
       
       if(stop_drift){
         if(debug) cout << "LArDrift::End of the drift calculation after " << el.step << " steps -> z = " << el.z[el.step] << " cm, E = " << el.e << " V/cm, dt = " << dt << " us" << endl;
